@@ -4,15 +4,10 @@
         "description": "An initial attempt to describe the MEC UE Application Interface API using OpenAPI",
         "version": "0.3.1",
         "title": "UE Application Interface API",
-        "termsOfService": "TBD",
-        "contact": {
-            "name": "TBD",
-            "url": "TBD"
-        },
-        "license": {
-            "name": "ETSI MEC",
-            "url": "TBD"
-        }
+	"license": { 
+		"name": "ETSI Forge copyright notice", 
+		"url": "https://forge.etsi.org/etsi-forge-copyright-notice.txt" 
+	}
     },
     "externalDocs": {
         "description": "ETSI MEC016 V0.3.1 UE Application Interface API",
