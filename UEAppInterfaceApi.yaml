@@ -1,15 +1,13 @@
 swagger: '2.0'
 info:
-  description: >-
-    An initial attempt to describe the MEC UE Application Interface API using
-    OpenAPI
-  version: 0.3.1
-  title: UE Application Interface API
+  description: 'The ETSI MEC ISG MEC016 UE Application Interface API described using OpenAPI'
+  version: 1.0.1
+  title: 'UE Application Interface API'
   license:
-    name: ETSI Forge copyright notice
+    name: 'ETSI Forge copyright notice'
     url: 'https://forge.etsi.org/etsi-forge-copyright-notice.txt'
 externalDocs:
-  description: ETSI MEC016 V0.3.1 UE Application Interface API
+  description: 'ETSI GS MEC016 UE Application Interface API, V1.0.1'
   url: 'https://docbox.etsi.org/ISG/MEC/70-Draft/0016UEAppInterface'
 host: '127.0.0.1:8081'
 basePath: /mx2/v1
@@ -30,12 +28,11 @@ securityDefinitions:
     tokenUrl: 'https://oauth.exampleAPI/token'
     scopes:
       all: Single oauth2 scope for API
-      
 parameters:
   Query.AppName:
     name: appName
     in: query
-    description: Name to identify the mobile edge application
+    description: 'Name to identify the mobile edge application'
     required: false
     type: array
     items:
@@ -43,7 +40,7 @@ parameters:
   Query.AppProvider:
     name: appProvider
     in: query
-    description: Provider of the mobile edge application
+    description: 'Provider of the mobile edge application'
     required: false
     type: array
     items:
@@ -51,7 +48,7 @@ parameters:
   Query.AppSoftVersion:
     name: appSoftVersion
     in: query
-    description: Software version of the mobile edge application
+    description: 'Software version of the mobile edge application'
     required: false
     type: array
     items:
@@ -59,7 +56,7 @@ parameters:
   Query.ServiceCont:
     name: serviceCont
     in: query
-    description: Required service continuity mode for this application
+    description: 'Required service continuity mode for this application'
     required: false
     type: string
     enum:
@@ -68,17 +65,14 @@ parameters:
   Body.AppContext:
     name: appContext
     in: body
-    description: >-
-      Uniquely identifies the application context in the mobile edge system. It
-      is assigned by the mobile edge system and included in the response to an
-      AppContext create.
+    description: 'Uniquely identifies the application context in the mobile edge system. It is assigned by the mobile edge system and included in the response to an AppContext create.'
     required: true
     schema:
       $ref: '#/definitions/AppContext'
   Query.VendorId:
     name: vendorId
     in: query
-    description: Vendor identifier
+    description: 'Vendor identifier'
     required: false
     type: array
     items:
@@ -86,18 +80,13 @@ parameters:
   Path.ContextId:
     name: contextId
     in: path
-    description: >-
-      Uniquely identifies the application context in the mobile edge system. It
-      is assigned by the mobile edge system and included in the response to an
-      AppContext create.
+    description: 'Uniquely identifies the application context in the mobile edge system. It is assigned by the mobile edge system and included in the response to an AppContext create.'
     required: true
     type: string
 paths:
   /app_list:
     get:
-      description: >-
-        The GET method can be used to query information about the available
-        mobile edge applications.
+      description: 'The GET method can be used to query information about the available mobile edge applications.'
       produces:
         - application/json
       parameters:
@@ -108,96 +97,94 @@ paths:
         - $ref: '#/parameters/Query.VendorId'
       responses:
         '200':
-          description: >-
-            The response body contains the ApplicationList resource available
-            for the querying UE application
+          description: 'The response body contains the ApplicationList resource available for the querying UE application'
           schema:
+            type: object
             required:
               - ApplicationList
             properties:
               ApplicationList:
                 $ref: '#/definitions/ApplicationList'
         '400':
-          description: Incorrect parameters were passed in the request.More information should be provided in the "detail" attribute of the "ProblemDetails" structure.
+          description: 'Incorrect parameters were passed in the request.More information should be provided in the "detail" attribute of the "ProblemDetails" structure.'
           schema:
+            type: object
             properties:
               ProblemDetails:
                 $ref: '#/definitions/ProblemDetails'
         '401':
-          description: An erroneous or missing bearer token. More information should be provided in the "detail" attribute of the "ProblemDetails" structure.
+          description: 'An erroneous or missing bearer token. More information should be provided in the "detail" attribute of the "ProblemDetails" structure.'
           schema:
+            type: object
             properties:
               ProblemDetails:
                 $ref: '#/definitions/ProblemDetails'
         '403':
-          description: >-
-            The operation is not allowed given the current status of the resource. More information should be provided in the "detail" attribute of the "ProblemDetails" structure.
+          description: 'The operation is not allowed given the current status of the resource. More information should be provided in the "detail" attribute of the "ProblemDetails" structure.'
           schema:
+            type: object
             required:
               - ProblemDetails
             properties:
               ProblemDetails:
                 $ref: '#/definitions/ProblemDetails'
         '404':
-          description: >-
-            The client provided a URI that cannot be mapped to a valid resource URL. More information should be provided in the "detail" attribute of the "ProblemDetails" structure.
+          description: 'The client provided a URI that cannot be mapped to a valid resource URL. More information should be provided in the "detail" attribute of the "ProblemDetails" structure.'
           schema:
+            type: object
             properties:
               ProblemDetails:
                 $ref: '#/definitions/ProblemDetails'
   /app_contexts:
     post:
-      description: >-
-        The POST method can be used to create a new application context. Upon
-        success, the response contains entity body describing the created
-        application context.
+      description: 'The POST method can be used to create a new application context. Upon success, the response contains entity body describing the created application context.'
       produces:
         - application/json
       parameters:
         - $ref: '#/parameters/Body.AppContext'
       responses:
         '201':
-          description: >-
-            The response body contains the Application Context as it was created
-            by the mobile edge system
+          description: 'The response body contains the Application Context as it was created by the mobile edge system'
           schema:
+            type: object
             required:
               - AppContext
             properties:
               AppContext:
                 $ref: '#/definitions/AppContext'
         '400':
-          description: Incorrect parameters were passed in the request.More information should be provided in the "detail" attribute of the "ProblemDetails" structure.
+          description: 'Incorrect parameters were passed in the request.More information should be provided in the "detail" attribute of the "ProblemDetails" structure.'
           schema:
+            type: object
             properties:
               ProblemDetails:
                 $ref: '#/definitions/ProblemDetails'
         '401':
-          description: An erroneous or missing bearer token. More information should be provided in the "detail" attribute of the "ProblemDetails" structure.
+          description: 'An erroneous or missing bearer token. More information should be provided in the "detail" attribute of the "ProblemDetails" structure.'
           schema:
+            type: object
             properties:
               ProblemDetails:
                 $ref: '#/definitions/ProblemDetails'
         '403':
-          description: >-
-            The operation is not allowed given the current status of the resource. More information should be provided in the "detail" attribute of the "ProblemDetails" structure.
+          description: 'The operation is not allowed given the current status of the resource. More information should be provided in the "detail" attribute of the "ProblemDetails" structure.'
           schema:
+            type: object
             required:
               - ProblemDetails
             properties:
               ProblemDetails:
                 $ref: '#/definitions/ProblemDetails'
         '404':
-          description: >-
-            The client provided a URI that cannot be mapped to a valid resource URL. More information should be provided in the "detail" attribute of the "ProblemDetails" structure.
+          description: 'The client provided a URI that cannot be mapped to a valid resource URL. More information should be provided in the "detail" attribute of the "ProblemDetails" structure.'
           schema:
+            type: object
             properties:
               ProblemDetails:
                 $ref: '#/definitions/ProblemDetails'
   '/app_contexts/{contextId}':
     put:
-      description: >-
-        The PUT method is used to update the callback reference of the existing application context. Upon successful operation, the target resource is updated with new callback reference. 
+      description: 'The PUT method is used to update the callback reference of the existing application context. Upon successful operation, the target resource is updated with new callback reference.'
       produces:
         - application/json
       parameters:
@@ -205,41 +192,39 @@ paths:
         - $ref: '#/parameters/Body.AppContext'
       responses:
         '204':
-          description: >-
-            Upon success, a response 204 No Content without any response body is
-            returned.
+          description: 'Upon success, a response 204 No Content without any response body is returned.'
         '400':
-          description: Incorrect parameters were passed in the request.More information should be provided in the "detail" attribute of the "ProblemDetails" structure.
+          description: 'Incorrect parameters were passed in the request.More information should be provided in the "detail" attribute of the "ProblemDetails" structure.'
           schema:
+            type: object
             properties:
               ProblemDetails:
                 $ref: '#/definitions/ProblemDetails'
         '401':
-          description: An erroneous or missing bearer token. More information should be provided in the "detail" attribute of the "ProblemDetails" structure.
+          description: 'An erroneous or missing bearer token. More information should be provided in the "detail" attribute of the "ProblemDetails" structure.'
           schema:
+            type: object
             properties:
               ProblemDetails:
                 $ref: '#/definitions/ProblemDetails'
         '403':
-          description: >-
-            The operation is not allowed given the current status of the resource. More information should be provided in the "detail" attribute of the "ProblemDetails" structure.
+          description: 'The operation is not allowed given the current status of the resource. More information should be provided in the "detail" attribute of the "ProblemDetails" structure.'
           schema:
+            type: object
             required:
               - ProblemDetails
             properties:
               ProblemDetails:
                 $ref: '#/definitions/ProblemDetails'
         '404':
-          description: >-
-            The client provided a URI that cannot be mapped to a valid resource URL. More information should be provided in the "detail" attribute of the "ProblemDetails" structure.
+          description: 'The client provided a URI that cannot be mapped to a valid resource URL. More information should be provided in the "detail" attribute of the "ProblemDetails" structure.'
           schema:
+            type: object
             properties:
               ProblemDetails:
                 $ref: '#/definitions/ProblemDetails'
     delete:
-      description: >-
-        The DELETE method is used to delete the resource that represents the
-        existing application context.
+      description: 'The DELETE method is used to delete the resource that represents the existing application context.'
       produces:
         - application/json
       parameters:
@@ -250,30 +235,32 @@ paths:
             Upon success, a response 204 No Content without any response body is
             returned.
         '400':
-          description: Incorrect parameters were passed in the request. More information should be provided in the "detail" attribute of the "ProblemDetails" structure.
+          description: 'Incorrect parameters were passed in the request. More information should be provided in the "detail" attribute of the "ProblemDetails" structure.'
           schema:
+            type: object
             properties:
               ProblemDetails:
                 $ref: '#/definitions/ProblemDetails'
         '401':
-          description: An erroneous or missing bearer token. More information should be provided in the "detail" attribute of the "ProblemDetails" structure.
+          description: 'An erroneous or missing bearer token. More information should be provided in the "detail" attribute of the "ProblemDetails" structure.'
           schema:
+            type: object
             properties:
               ProblemDetails:
                 $ref: '#/definitions/ProblemDetails'
         '403':
-          description: >-
-            The operation is not allowed given the current status of the resource. More information should be provided in the "detail" attribute of the "ProblemDetails" structure.
+          description: 'The operation is not allowed given the current status of the resource. More information should be provided in the "detail" attribute of the "ProblemDetails" structure.'
           schema:
+            type: object
             required:
               - ProblemDetails
             properties:
               ProblemDetails:
                 $ref: '#/definitions/ProblemDetails'
         '404':
-          description: >-
-            The client provided a URI that cannot be mapped to a valid resource URL. More information should be provided in the "detail" attribute of the "ProblemDetails" structure.
+          description: 'The client provided a URI that cannot be mapped to a valid resource URL. More information should be provided in the "detail" attribute of the "ProblemDetails" structure.'
           schema:
+            type: object
             properties:
               ProblemDetails:
                 $ref: '#/definitions/ProblemDetails'
@@ -294,25 +281,23 @@ definitions:
   Problem.type:
     type: string
     format: uri
-    description: >-
-      A URI reference according to IETF RFC 3986 that identifies the problem
-      type
+    description: 'A URI reference according to IETF RFC 3986 that identifies the problem type'
   Problem.title:
     type: string
     description: 'A short, human-readable summary of the problem type'
   Problem.status:
     type: integer
     format: uint32
-    description: The HTTP status code for this occurrence of the problem
+    description: 'The HTTP status code for this occurrence of the problem'
   Problem.detail:
     type: string
-    description: A human-readable explanation specific to this occurrence of the problem
+    description: 'A human-readable explanation specific to this occurrence of the problem'
   Problem.instance:
     type: string
     format: uri
-    description: A URI reference that identifies the specific occurrence of the problem
+    description: 'A URI reference that identifies the specific occurrence of the problem'
   ApplicationList:
-    description: information on available applications
+    description: 'Information on available applications'
     type: object
     properties:
       appInfo:
@@ -320,7 +305,7 @@ definitions:
       vendorSpecificExt:
         $ref: '#/definitions/VendorSpecificExt'
   AppContext:
-    description: information on application context created by the mobile edge system
+    description: 'Information on application context created by the mobile edge system'
     type: object
     required:
       - contextId
@@ -336,7 +321,7 @@ definitions:
       appInfo:
         $ref: '#/definitions/RequiredAppInfo'
   NotificationEvent:
-    description: the parameters used in the method 'Receiving notification events'.
+    description: 'The parameters used in the method "Receiving notification events".'
     type: object
     required:
       - referenceURI
@@ -344,7 +329,7 @@ definitions:
       referenceURI:
         $ref: '#/definitions/ReferenceURL'
   VendorSpecificExt:
-    description: Extension for vendor-specific information
+    description: 'Extension for vendor-specific information'
     type: array
     items:
       required:
@@ -353,19 +338,16 @@ definitions:
         vendorId:
           $ref: '#/definitions/VendorId'
   ContextId:
-    description: >-
-      Uniquely identifies the application context in the mobile edge system.
-      Assigned by the mobile edge system and included in the response. The length of the value shall not exceed 32 characters.
+    description: 'Uniquely identifies the application context in the mobile edge system. Assigned by the mobile edge system and included in the response. The length of the value shall not exceed 32 characters.'
     type: string
   AssociateUeAppId:
     description: 'Uniquely identifies the UE application. Included in the request. The length of the value shall not exceed 32 characters.'
     type: string
   VendorId:
-    description: >-
-      Vendor identifier. The length of the value shall not exceed 32 characters. The rest of the structure of vendor specific extension is not defined
+    description: 'Vendor identifier. The length of the value shall not exceed 32 characters. The rest of the structure of vendor specific extension is not defined'
     type: string
   AppInfo:
-    description: User applications available for the UE application
+    description: 'User applications available for the UE application'
     type: array
     items:
       type: object
@@ -385,7 +367,7 @@ definitions:
         appCharcs:
           $ref: '#/definitions/AppCharcs'
   RequiredAppInfo:
-    description: Included in the request
+    description: 'Included in the request'
     type: object
     required:
       - appName
@@ -405,11 +387,7 @@ definitions:
       appPackageSource:
         $ref: '#/definitions/AppPackageSource'
   AppCharcs:
-    description: >-
-      The application characteristics relate to the system resources consumed by
-      the application. UE application can use this information e.g., for
-      estimating the cost of use of the application or for the expected user
-      experience
+    description: 'The application characteristics relate to the system resources consumed by the application. UE application can use this information e.g., for estimating the cost of use of the application or for the expected user experience'
     type: object
     properties:
       memory:
@@ -423,27 +401,21 @@ definitions:
       serviceCont:
         $ref: '#/definitions/ServiceCont'
   Memory:
-    description: >-
-      The maximum size in Mbytes of the memory resource reserved for the mobile
-      edge application instance in the mobile edge system
+    description: 'The maximum size in Mbytes of the memory resource reserved for the mobile edge application instance in the mobile edge system'
     type: integer
-    format: unit32
+    format: uint32
   Storage:
-    description: >-
-      The maximum size in Mbytes of the storage resource expected to be used by the mobile edge application instance in the mobile edge system
+    description: 'The maximum size in Mbytes of the storage resource expected to be used by the mobile edge application instance in the mobile edge system'
     type: integer
-    format: unit32
+    format: uint32
   Latency:
-    description: >-
-      The target round trip time in milliseconds supported by the mobile edge system for the mobile edge application instance
+    description: 'The target round trip time in milliseconds supported by the mobile edge system for the mobile edge application instance'
     type: integer
-    format: unit32
+    format: uint32
   Bandwidth:
-    description: >-
-      The required connection bandwidth in kbit/s for the use of the mobile edge
-      application instance
+    description: 'The required connection bandwidth in kbit/s for the use of the mobile edge application instance'
     type: integer
-    format: unit32
+    format: uint32
   ServiceCont:
     description: >-
       Required service continuity mode for this application.
@@ -456,32 +428,23 @@ definitions:
       Name of the mobile edge application. The length of the value shall not exceed 32 characters.
     type: string
   AppProvider:
-    description: Provider of the mobile edge application. The length of the value shall not exceed 32 characters.
+    description: 'Provider of the mobile edge application. The length of the value shall not exceed 32 characters.'
     type: string
   AppSoftVersion:
-    description: Software version of the mobile edge application. The length of the value shall not exceed 32 characters.
+    description: 'Software version of the mobile edge application. The length of the value shall not exceed 32 characters.'
     type: string
   AppDescription:
-    description: -> 
-      Human readable description of the mobile edge application. 'NOTE:' the language support may be limited. The length of the value shall not exceed 128 characters.
+    description: 'Human readable description of the mobile edge application. NOTE: the language support may be limited. The length of the value shall not exceed 128 characters.'
     type: string
   CallbackReference:
-    description: >-
-      URI assigned by the UE application to receive application lifecycle
-      related notifications. Included in the request. This subscription stays
-      alive for the lifetime of the application context.
+    description: 'URI assigned by the UE application to receive application lifecycle related notifications. Included in the request. This subscription stays alive for the lifetime of the application context.'
     type: string
     format: uri
   ReferenceURL:
-    description: >-
-      Address of the user application. Used as the reference URL for the
-      application. Assigned by the mobile edge system and included in the
-      response
+    description: 'Address of the user application. Used as the reference URL for the application. Assigned by the mobile edge system and included in the response'
     type: string
     format: uri
   AppPackageSource:
-    description: >-
-      URI of the application package. Included in the request if the application
-      is not one in the ApplicationList. appPackageSource enables on-boarding of the application package into the mobile edge system. The application package shall comply with the definitions in clause 6.2.1.2 of ETSI GS MEC 010-2 [1]
+    description: 'URI of the application package. Included in the request if the application is not one in the ApplicationList. appPackageSource enables on-boarding of the application package into the mobile edge system. The application package shall comply with the definitions in clause 6.2.1.2 of ETSI GS MEC 010-2'
     type: string
     format: uri
