@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "description": "The ETSI MEC ISG MEC016 UE Application Interface API described using OpenAPI",
-    "version": "1.0.1",
+    "version": "1.1.1",
     "title": "UE Application Interface API",
     "license": {
       "name": "ETSI Forge copyright notice",
@@ -10,8 +10,8 @@
     }
   },
   "externalDocs": {
-    "description": "ETSI GS MEC016 UE Application Interface API, V1.0.1",
-    "url": "https://docbox.etsi.org/ISG/MEC/70-Draft/0016UEAppInterface"
+    "description": "ETSI GS MEC016 UE Application Interface API, V1.1.1",
+    "url": "http://www.etsi.org/deliver/etsi_gs/MEC/001_099/016/01.01.01_60/gs_MEC016v010101p.pdf"
   },
   "host": "127.0.0.1:8081",
   "basePath": "/mx2/v1",
