@@ -4,8 +4,8 @@ This repository contains OpenAPIs descriptions for the interfaces specified in E
 
 ## Online resources
 
-* [Navigate the API in the browser](https://forge.etsi.org/rep/gitweb.cgi/MEC.GS_016.git/blob/HEAD:/UEAppInterfaceApi.yaml#swagger).
-* [Edit the API online](https://forge.etsi.org/swagger/editor/?url=https://forge.etsi.org/rep/gitweb.cgi/MEC.GS_016.git/blob_plain/HEAD:/UEAppInterfaceApi.yaml).
+* [Navigate the API in the browser](https://forge.etsi.org/swagger/ui/?url=https://forge.etsi.org/gitlab/mec/gs016-ue-app-api/raw/master/UEAppInterfaceApi.yaml).
+* [Edit the API online](https://forge.etsi.org/swagger/editor/?url=https://forge.etsi.org/gitlab/mec/gs016-ue-app-api/raw/master/UEAppInterfaceApi.yaml).
 
 ## ETSI Forge Copyright statement
 
