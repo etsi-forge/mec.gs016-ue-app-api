@@ -37,6 +37,9 @@
     },
     {
       "name": "appContext"
+    },
+    {
+      "name": "callback"
     }
   ],
   "paths": {
@@ -109,6 +112,11 @@
           "404": {
             "$ref": "#/components/responses/Error.404"
           }
+        },
+        "callbacks": {
+          "referenceURI": {
+            "$ref": "#/components/callbacks/NotificationEvent"
+          }
         }
       }
     },
@@ -143,6 +151,11 @@
           "404": {
             "$ref": "#/components/responses/Error.404"
           }
+        },
+        "callbacks": {
+          "referenceURI": {
+            "$ref": "#/components/callbacks/NotificationEvent"
+          }
         }
       },
       "delete": {
@@ -172,6 +185,43 @@
     }
   },
   "components": {
+    "callbacks": {
+      "NotificationEvent": {
+        "{$request.body#/callbackReference}": {
+          "post": {
+            "description": "Used by the UALCMP to inform the UE application of  a modification to reference URI of the user application.",
+            "operationId": "NotificationEvent_POST",
+            "tags": [
+              "callback"
+            ],
+            "requestBody": {
+              "$ref": "#/components/requestBodies/NotificationEvent"
+            },
+            "responses": {
+              "204": {
+                "description": "No Content."
+              }
+            }
+          }
+        }
+      }
+    },
+    "links": {
+      "PutAppContext": {
+        "operationId": "AppContextId_PUT",
+        "description": "The `contextId` value returned in the response can be used as the `contextId` parameter in `PUT /app_contexts/{contextId}`",
+        "parameters": {
+          "contextId": "$response.body#/contextId"
+        }
+      },
+      "DelAppContext": {
+        "operationId": "AppContextId_DEL",
+        "description": "The `contextId` value returned in the response can be used as the `contextId` parameter in `DELETE /app_contexts/{contextId}`",
+        "parameters": {
+          "contextId": "$response.body#/contextId"
+        }
+      }
+    },
     "parameters": {
       "Query.AppName": {
         "name": "appName",
@@ -255,6 +305,17 @@
           }
         },
         "required": true
+      },
+      "NotificationEvent": {
+        "description": "Sent by the UALCMP to the UE application.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/NotificationEvent"
+            }
+          }
+        },
+        "required": true
       }
     },
     "responses": {
@@ -265,6 +326,14 @@
             "schema": {
               "$ref": "#/components/schemas/AppContext"
             }
+          }
+        },
+        "links": {
+          "putAppContext": {
+            "$ref": "#/components/links/PutAppContext"
+          },
+          "delAppContext": {
+            "$ref": "#/components/links/DelAppContext"
           }
         }
       },
@@ -412,6 +481,7 @@
         "required": [
           "contextId",
           "associateUeAppId",
+          "callbackReference",
           "appInfo"
         ],
         "properties": {
@@ -462,11 +532,13 @@
       },
       "ContextId": {
         "description": "Uniquely identifies the application context in the MEC system. Assigned by the MEC system and included in the response. The length of the value shall not exceed 32 characters.",
-        "type": "string"
+        "type": "string",
+        "readOnly": true
       },
       "AssociateUeAppId": {
         "description": "Uniquely identifies the UE application. Included in the request. The length of the value shall not exceed 32 characters.",
-        "type": "string"
+        "type": "string",
+        "writeOnly": true
       },
       "VendorId": {
         "description": "Vendor identifier. The length of the value shall not exceed 32 characters. The rest of the structure of this vendor specific extension is not defined",
@@ -570,7 +642,7 @@
         "format": "uint32"
       },
       "Bandwidth": {
-        "description": "The required connection bandwidth in kbit/s for the use of the mobile edge application instance",
+        "description": "The required connection bandwidth in kbit/s for the use of the MEC application instance",
         "type": "integer",
         "format": "uint32"
       },
@@ -601,12 +673,14 @@
       "CallbackReference": {
         "description": "URI assigned by the UE application to receive application lifecycle related notifications. Included in the request. This subscription stays alive for the lifetime of the application context.",
         "type": "string",
-        "format": "uri"
+        "format": "uri",
+        "writeOnly": true
       },
       "ReferenceURL": {
         "description": "Address of the user application. Used as the reference URL for the application. Assigned by the MEC system and included in the response",
         "type": "string",
-        "format": "uri"
+        "format": "uri",
+        "readOnly": true
       },
       "AppPackageSource": {
         "description": "URI of the application package. Included in the request if the application is not one in the ApplicationList. appPackageSource enables on-boarding of the application package into the MEC system. The application package shall comply with the definitions in clause 6.2.1.2 of ETSI GS MEC 010-2",

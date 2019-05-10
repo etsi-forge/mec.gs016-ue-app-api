@@ -22,6 +22,7 @@ servers:
 tags:
   - name: appList
   - name: appContext
+  - name: callback
 paths:
   "/app_list":
     get:
@@ -70,6 +71,9 @@ paths:
           $ref: '#/components/responses/Error.403'
         "404":
           $ref: '#/components/responses/Error.404'
+      callbacks:
+        referenceURI:
+          $ref: '#/components/callbacks/NotificationEvent'
   "/app_contexts/{contextId}":
     parameters:
       - $ref: "#/components/parameters/Path.ContextId"
@@ -94,6 +98,9 @@ paths:
           $ref: '#/components/responses/Error.403'
         "404":
           $ref: '#/components/responses/Error.404'
+      callbacks:
+        referenceURI:
+          $ref: '#/components/callbacks/NotificationEvent'
     delete:
       description: >-
         The DELETE method is used to delete the resource that represents the
@@ -113,6 +120,32 @@ paths:
         "404":
           $ref: '#/components/responses/Error.404'
 components:
+  callbacks:
+    NotificationEvent:
+      '{$request.body#/callbackReference}':
+        post:
+          description: >-
+            Used by the UALCMP to inform the UE application of 
+            a modification to reference URI of the user application.
+          operationId: NotificationEvent_POST
+          tags:
+            - callback
+          requestBody:
+            $ref: '#/components/requestBodies/NotificationEvent'
+          responses:
+            '204':
+              description: No Content.
+  links:
+    PutAppContext:
+      operationId: AppContextId_PUT
+      description: The `contextId` value returned in the response can be used as the `contextId` parameter in `PUT /app_contexts/{contextId}`
+      parameters:
+        contextId: '$response.body#/contextId'
+    DelAppContext:
+      operationId: AppContextId_DEL
+      description: The `contextId` value returned in the response can be used as the `contextId` parameter in `DELETE /app_contexts/{contextId}`
+      parameters:
+        contextId: '$response.body#/contextId'
   parameters:
     Query.AppName:
       name: appName
@@ -185,6 +218,14 @@ components:
           schema:
             $ref: "#/components/schemas/AppContext"
       required: true
+    NotificationEvent:
+      description: >- 
+        Sent by the UALCMP to the UE application.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/NotificationEvent"
+      required: true
   responses:
     AppContext:
       description: >-
@@ -194,6 +235,11 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/AppContext"
+      links:
+        putAppContext:
+          $ref: "#/components/links/PutAppContext"
+        delAppContext:
+          $ref: "#/components/links/DelAppContext"
     AppList:
       description: >-
         The response body contains the ApplicationList resource available
@@ -308,6 +354,7 @@ components:
       required:
         - contextId
         - associateUeAppId
+        - callbackReference
         - appInfo
       properties:
         contextId:
@@ -347,11 +394,13 @@ components:
         Assigned by the MEC system and included in the response. The
         length of the value shall not exceed 32 characters.
       type: string
+      readOnly: true
     AssociateUeAppId:
       description: >-
         Uniquely identifies the UE application. Included in the request. The
         length of the value shall not exceed 32 characters.
       type: string
+      writeOnly: true
     VendorId:
       description: >-
         Vendor identifier. The length of the value shall not exceed 32
@@ -439,8 +488,8 @@ components:
       format: uint32
     Bandwidth:
       description: >-
-        The required connection bandwidth in kbit/s for the use of the mobile
-        edge application instance
+        The required connection bandwidth in kbit/s for the use of the MEC
+        application instance
       type: integer
       format: uint32
     ServiceCont:
@@ -478,6 +527,7 @@ components:
         alive for the lifetime of the application context.
       type: string
       format: uri
+      writeOnly: true
     ReferenceURL:
       description: >-
         Address of the user application. Used as the reference URL for the
@@ -485,6 +535,7 @@ components:
         response
       type: string
       format: uri
+      readOnly: true
     AppPackageSource:
       description: >-
         URI of the application package. Included in the request if the
