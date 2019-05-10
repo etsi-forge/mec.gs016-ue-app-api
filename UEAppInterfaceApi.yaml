@@ -1,7 +1,7 @@
 openapi: 3.0.2
 info:
   title: UE Application Interface API
-  version: 1.1.1
+  version: 2.1.1
   description: >-
     The ETSI MEC ISG MEC016 UE Application Interface API described using OpenAPI
   license:
@@ -11,14 +11,14 @@ info:
     email: cti_support@etsi.org
 externalDocs:
   description: >-
-    ETSI GS MEC016 UE Application Interface API, V1.1.1
-  url: http://www.etsi.org/deliver/etsi_gs/MEC/001_099/016/01.01.01_60/gs_MEC016v010101p.pdf
+    ETSI GS MEC016 UE Application Interface API, V2.1.1
+  url: https://www.etsi.org/deliver/etsi_gs/MEC/001_099/016/02.01.01_60/gs_MEC016v020101p.pdf
 security:
   - OauthSecurity:
       - all
 servers:
-  - url: http://127.0.0.1:8081/mx2/v1
-  - url: https://127.0.0.1:8081/mx2/v1
+  - url: http://127.0.0.1:8081/mx2/v2
+  - url: https://127.0.0.1:8081/mx2/v2
 tags:
   - name: appList
   - name: appContext
@@ -125,7 +125,7 @@ components:
       '{$request.body#/callbackReference}':
         post:
           description: >-
-            Used by the UALCMP to inform the UE application of 
+            Used by the UALCMP to inform the Device application of 
             a modification to reference URI of the user application.
           operationId: NotificationEvent_POST
           tags:
@@ -220,7 +220,7 @@ components:
       required: true
     NotificationEvent:
       description: >- 
-        Sent by the UALCMP to the UE application.
+        Sent by the UALCMP to the Device application.
       content:
         application/json:
           schema:
@@ -243,7 +243,7 @@ components:
     AppList:
       description: >-
         The response body contains the ApplicationList resource available
-        for the querying UE application
+        for the querying Device application
       content:
         application/json:
           schema:
@@ -343,10 +343,22 @@ components:
         Information on available applications
       type: object
       properties:
-        appInfo:
-          $ref: "#/components/schemas/AppInfo"
+        appList:
+          $ref: "#/components/schemas/AppList"
         vendorSpecificExt:
           $ref: "#/components/schemas/VendorSpecificExt"
+    AppList:
+      description: >-
+        List of user applications available to the device application
+      type: array
+      minItems: 0
+      items:
+        type: object
+        required:
+          - appInfo
+        properties:
+          appInfo:
+            $ref: "#/components/schemas/AppInfo"
     AppContext:
       description: >-
         Information on application context created by the MEC system
@@ -364,7 +376,7 @@ components:
         callbackReference:
           $ref: "#/components/schemas/CallbackReference"
         appInfo:
-          $ref: "#/components/schemas/RequiredAppInfo"
+          $ref: "#/components/schemas/AppInfoAppContext"
     NotificationEvent:
       description: >-
         The parameters used in the method "Receiving notification events".
@@ -374,12 +386,6 @@ components:
       properties:
         referenceURI:
           $ref: "#/components/schemas/ReferenceURL"
-    VendorSpecificExtList:
-      description: Extension for vendor specific information.
-      type: array
-      minItems: 0
-      items:
-        $ref: "#/components/schemas/VendorSpecificExt"
     VendorSpecificExt:
       description: >-
         Extension for vendor-specific information
@@ -397,7 +403,7 @@ components:
       readOnly: true
     AssociateUeAppId:
       description: >-
-        Uniquely identifies the UE application. Included in the request. The
+        Uniquely identifies the Device application. Included in the request. The
         length of the value shall not exceed 32 characters.
       type: string
       writeOnly: true
@@ -408,42 +414,47 @@ components:
         is not defined
       type: string
     AppInfo:
-      description: >-
-        User applications available for the UE application
-      type: array
-      items:
-        $ref: "#/components/schemas/AppInfoList"
-    AppInfoList:
       type: object
       required:
+        - appDId
         - appName
         - appProvider
+        - appSoftVersion
+        - appDVersion
         - appDescription
       properties:
+        appDId:
+          $ref: "#/components/schemas/AppDId"
         appName:
           $ref: "#/components/schemas/AppName"
         appProvider:
           $ref: "#/components/schemas/AppProvider"
         appSoftVersion:
           $ref: "#/components/schemas/AppSoftVersion"
+        appDVersion:
+          $ref: "#/components/schemas/AppDVersion"
         appDescription:
           $ref: "#/components/schemas/AppDescription"
         appCharcs:
           $ref: "#/components/schemas/AppCharcs"
-    RequiredAppInfo:
+    AppInfoAppContext:
       description: Included in the request
       type: object
       required:
         - appName
         - appProvider
-        - referenceURL
+        - appDVersion
       properties:
+        appDId:
+          $ref: "#/components/schemas/AppDId"
         appName:
           $ref: "#/components/schemas/AppName"
         appProvider:
           $ref: "#/components/schemas/AppProvider"
         appSoftVersion:
           $ref: "#/components/schemas/AppSoftVersion"
+        appDVersion:
+          $ref: "#/components/schemas/AppDVersion"
         appDescription:
           $ref: "#/components/schemas/AppDescription"
         referenceURL:
@@ -453,7 +464,7 @@ components:
     AppCharcs:
       description: >-
         The application characteristics relate to the system resources consumed
-        by the application. UE application can use this information e.g., for
+        by the application. Device application can use this information e.g., for
         estimating the cost of use of the application or for the expected user
         experience
       type: object
@@ -499,6 +510,15 @@ components:
       enum:
         - SERVICE_CONTINUITY_NOT_REQUIRED
         - SERVICE_CONTINUITY_REQUIRED
+      example:
+        SERVICE_CONTINUITY_NOT_REQUIRED
+    AppDId:
+      description: >-
+        Identifier of this MEC application descriptor. It is equivalent to 
+        the appDId defined in clause 6.2.1.2 of ETSI GS MEC 010-2. 
+        This attribute shall be globally unique. It shall be present if the 
+        application is one in the ApplicationList.
+      type: string
     AppName:
       description: >-
         Name of the MEC application. The length of the value shall not
@@ -514,6 +534,12 @@ components:
         Software version of the MEC application. The length of the value
         shall not exceed 32 characters.
       type: string
+    AppDVersion:
+      description: >-
+        Identifies the version of the application descriptor. It is 
+        equivalent to the appDVersion defined in clause 6.2.1.2 of 
+        ETSI GS MEC 010-2.
+      type: string
     AppDescription:
       description: >-
         Human readable description of the MEC application. NOTE the
@@ -522,7 +548,7 @@ components:
       type: string
     CallbackReference:
       description: >-
-        URI assigned by the UE application to receive application lifecycle
+        URI assigned by the Device application to receive application lifecycle
         related notifications. Included in the request. This subscription stays
         alive for the lifetime of the application context.
       type: string
