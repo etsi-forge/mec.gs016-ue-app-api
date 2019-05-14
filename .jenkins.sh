@@ -4,13 +4,15 @@ specfiles=$(ls | egrep "^[^.]*Api.(json|yaml)")
 
 fres=0
 for i in $specfiles ; do
-    echo "-- Validating OpenAPI file $i..."
-    swagger-tools validate $i
+    echo "-- Validatingand linting OpenAPI file $i..."
+    swagger-cli validate $i
     res=$?
-    fres=$(($fres||$res))
-    echo -e "-- Validator returned $res.\n"
+    speccy lint $i
+    res2=$?
+    fres=$(($fres||$res||$res2))
+    echo "--- Validator returned $res, linter returned $res2."
 done
 
-echo "-- Final validator returns $fres."
+echo "-- Final validation returns $fres."
 
 exit $fres
