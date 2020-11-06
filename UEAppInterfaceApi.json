@@ -1,6 +1,9 @@
 {
   "openapi": "3.0.0",
   "info": {
+    "contact": {
+      "url": "https://forge.etsi.org/rep/mec/gs016-dev-app-api"
+    },
     "title": "ETSI GS MEC 016 Device application interface",
     "version": "2.2.1",
     "description": "The ETSI MEC ISG Device application interface API described using OpenAPI.",
@@ -15,14 +18,19 @@
   },
   "servers": [
     {
-      "url": "https://{apiRoot}/dev_app/v1"
+      "url": "https://localhost/dev_app/v1"
+    }
+  ],
+  "tags": [
+    {
+      "name": "dev_app"
     }
   ],
   "paths": {
     "/app_list": {
       "get": {
         "tags": [
-          ""
+          "dev_app"
         ],
         "summary": "Get available application information.",
         "description": "Used to query information about the available MEC applications.",
@@ -78,7 +86,7 @@
     "/app_contexts": {
       "post": {
         "tags": [
-          ""
+          "dev_app"
         ],
         "summary": "Creation of a new application context.",
         "description": "Used to create a new application context. Upon success, the response contains entity body describing the created application context.",
@@ -188,7 +196,7 @@
     "/app_contexts/{contextId}": {
       "put": {
         "tags": [
-          ""
+          "dev_app"
         ],
         "summary": "Updating the callbackReference and/or appLocation of an existing application context.",
         "description": "Used to update the callback reference and/or application location constraints of an existing application context. Upon successful operation, the target resource is updated with the new application context information.",
@@ -234,7 +242,7 @@
       },
       "delete": {
         "tags": [
-          ""
+          "dev_app"
         ],
         "summary": "Deletion of an existing application context.",
         "description": "Used to delete the resource that represents the existing application context.",
@@ -266,7 +274,7 @@
     "/obtain_app_loc_availability": {
       "post": {
         "tags": [
-          ""
+          "dev_app"
         ],
         "summary": "Obtain the location constraints for a new application context.",
         "description": "Used to obtain the locations available for instantiation of a specific user application in the MEC system.",
@@ -573,20 +581,7 @@
                       "x-etsi-mec-origin-type": "String"
                     },
                     "appLocation": {
-                      "allOf": [
-                        {
-                          "$ref": "#/components/schemas/LocationConstraints"
-                        },
-                        {
-                          "description": "Location of the user application instance. For a user application not provided by the requesting device application it shall match one of the appLocations in ApplicationList."
-                        },
-                        {
-                          "x-etsi-mec-cardinality": "0..1"
-                        },
-                        {
-                          "x-etsi-mec-origin-type": "LocationConstraints"
-                        }
-                      ]
+                      "$ref": "#/components/schemas/LocationConstraints"
                     },
                     "referenceURI": {
                       "description": "Address of the user application instance. It shall only be included in the response.",
@@ -697,20 +692,7 @@
                   "x-etsi-mec-origin-type": "String"
                 },
                 "appLocation": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/LocationConstraints"
-                    },
-                    {
-                      "description": "Location of the user application instance."
-                    },
-                    {
-                      "x-etsi-mec-cardinality": "0..1"
-                    },
-                    {
-                      "x-etsi-mec-origin-type": "LocationConstraints"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/LocationConstraints"
                 },
                 "referenceURI": {
                   "description": "Address of the user application instance.",
@@ -755,21 +737,21 @@
                         "bandwidth": {
                           "description": "The required connection bandwidth in kbit/s for the use of the MEC application instance. ",
                           "type": "integer",
-                          "format": "uint32",
+                          "format": "int32",
                           "x-etsi-mec-cardinality": "0..1",
                           "x-etsi-mec-origin-type": "uint32"
                         },
                         "latency": {
                           "description": "The target round trip time in milliseconds supported by the MEC system for the MEC application instance.",
                           "type": "integer",
-                          "format": "uint32",
+                          "format": "int32",
                           "x-etsi-mec-cardinality": "0..1",
                           "x-etsi-mec-origin-type": "uint32"
                         },
                         "memory": {
                           "description": "The maximum size in Mbytes of the memory resource expected to be used by the MEC application instance in the MEC system.",
                           "type": "integer",
-                          "format": "uint32",
+                          "format": "int32",
                           "x-etsi-mec-cardinality": "0..1",
                           "x-etsi-mec-origin-type": "uint32"
                         },
@@ -779,14 +761,14 @@
                             0,
                             1
                           ],
-                          "type": "string",
+                          "type": "integer",
                           "x-etsi-mec-cardinality": "0..1",
                           "x-etsi-mec-origin-type": "Enum"
                         },
                         "storage": {
                           "description": "The maximum size in Mbytes of the storage resource expected to be used by the MEC application instance in the MEC system.",
                           "type": "integer",
-                          "format": "uint32",
+                          "format": "int32",
                           "x-etsi-mec-cardinality": "0..1",
                           "x-etsi-mec-origin-type": "uint32"
                         }
@@ -943,20 +925,7 @@
                   "type": "object",
                   "properties": {
                     "appLocation": {
-                      "allOf": [
-                        {
-                          "$ref": "#/components/schemas/LocationConstraints"
-                        },
-                        {
-                          "description": "Shall only be included in the response, where it indicates a location constraint available in the MEC system."
-                        },
-                        {
-                          "x-etsi-mec-cardinality": "0..1"
-                        },
-                        {
-                          "x-etsi-mec-origin-type": "LocationConstraints"
-                        }
-                      ]
+                      "$ref": "#/components/schemas/LocationConstraints"
                     }
                   }
                 },
@@ -998,20 +967,7 @@
               "type": "object",
               "properties": {
                 "appLocation": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/LocationConstraints"
-                    },
-                    {
-                      "description": "It shall match one of the appLocations in the AppContext sent in the Application context create "
-                    },
-                    {
-                      "x-etsi-mec-cardinality": "1"
-                    },
-                    {
-                      "x-etsi-mec-origin-type": "LocationConstraints"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/LocationConstraints"
                 }
               }
             },
@@ -1046,20 +1002,7 @@
       "LocationConstraints": {
         "properties": {
           "area": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/Polygon"
-              },
-              {
-                "description": "Geographic area. Shall be absent if the \"civicAddressElement\" attribute is present. The content of this attribute shall follow the provisions for the \"Polygon\" geometry object as defined in IETF RFC 7946 [8], for which the \"type\" member shall be set to the value \"Polygon\". See note."
-              },
-              {
-                "x-etsi-mec-cardinality": "0..1"
-              },
-              {
-                "x-etsi-mec-origin-type": "Polygon"
-              }
-            ]
+            "$ref": "#/components/schemas/Polygon"
           },
           "civicAddressElement": {
             "description": "Zero or more elements comprising the civic address. Shall be absent if the \"area\" attribute is present.",
@@ -1139,7 +1082,7 @@
           },
           "status": {
             "description": "The HTTP status code for this occurrence of the problem",
-            "format": "uint32",
+            "format": "int32",
             "type": "integer",
             "x-etsi-mec-cardinality": "0..1",
             "x-etsi-mec-origin-type": "Uint32"
