@@ -58,12 +58,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "applicationList": {
-                      "$ref": "#/components/schemas/ApplicationList"
-                    }
-                  }
+                  "$ref": "#/components/schemas/ApplicationList"
                 }
               }
             }
@@ -97,12 +92,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "appContext": {
-                    "$ref": "#/components/schemas/AppContext"
-                  }
-                }
+                "$ref": "#/components/schemas/AppContext"
               }
             }
           }
@@ -114,12 +104,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "appContext": {
-                      "$ref": "#/components/schemas/AppContext"
-                    }
-                  }
+                  "$ref": "#/components/schemas/AppContext"
                 }
               }
             }
@@ -150,34 +135,11 @@
                   "content": {
                     "application/json": {
                       "schema": {
-                        "type": "object",
-                        "properties": {
-                          "notification": {
-                            "oneOf": [
-                              {
-                                "$ref": "#/components/schemas/AddressChangeNotification"
-                              },
-                              {
-                                "$ref": "#/components/schemas/ApplicationContextDeleteNotification"
-                              },
-                              {
-                                "$ref": "#/components/schemas/ApplicationContextUpdateNotification"
-                              },
-                              {
-                                "$ref": "#/components/schemas/ApplicationLocationAvailabilityNotification"
-                              }
-                            ],
-                            "discriminator": {
-                              "propertyName": "notificationType"
-                            }
-                          }
-                        },
-                        "example": {
-                          "notification": {
-                            "notificationType": "ApplicationContextDeleteNotification",
-                            "contextId": "contextId123"
-                          }
-                        }
+                        "$ref": "#/components/schemas/InlineNotification"
+                      },
+                      "example": {
+                        "notificationType": "ApplicationContextDeleteNotification",
+                        "contextId": "contextId123"
                       }
                     }
                   }
@@ -207,12 +169,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "appContext": {
-                    "$ref": "#/components/schemas/AppContext"
-                  }
-                }
+                "$ref": "#/components/schemas/AppContext"
               }
             }
           }
@@ -285,12 +242,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "applicationLocationAvailability": {
-                    "$ref": "#/components/schemas/ApplicationLocationAvailability"
-                  }
-                }
+                "$ref": "#/components/schemas/ApplicationLocationAvailability"
               }
             }
           }
@@ -302,12 +254,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "applicationLocationAvailability": {
-                      "$ref": "#/components/schemas/ApplicationLocationAvailability"
-                    }
-                  }
+                  "$ref": "#/components/schemas/ApplicationLocationAvailability"
                 }
               }
             }
@@ -336,14 +283,9 @@
       "400": {
         "description": "Bad Request : used to indicate that incorrect parameters were passed to the request.",
         "content": {
-          "application/json": {
+          "application/problem+json": {
             "schema": {
-              "type": "object",
-              "properties": {
-                "problemDetails": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
+              "$ref": "#/components/schemas/ProblemDetails"
             }
           }
         }
@@ -351,14 +293,9 @@
       "401": {
         "description": "Unauthorized :  used when the client did not submit credentials.",
         "content": {
-          "application/json": {
+          "application/problem+json": {
             "schema": {
-              "type": "object",
-              "properties": {
-                "problemDetails": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
+              "$ref": "#/components/schemas/ProblemDetails"
             }
           }
         }
@@ -366,17 +303,9 @@
       "403": {
         "description": "Forbidden :  operation is not allowed given the current status of the resource.",
         "content": {
-          "application/json": {
+          "application/problem+json": {
             "schema": {
-              "type": "object",
-              "required": [
-                "problemDetails"
-              ],
-              "properties": {
-                "problemDetails": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
+              "$ref": "#/components/schemas/ProblemDetails"
             }
           }
         }
@@ -384,14 +313,9 @@
       "404": {
         "description": "Not Found :  used when a client provided a URI that cannot be mapped to a valid resource URI.",
         "content": {
-          "application/json": {
+          "application/problem+json": {
             "schema": {
-              "type": "object",
-              "properties": {
-                "problemDetails": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
+              "$ref": "#/components/schemas/ProblemDetails"
             }
           }
         }
@@ -998,6 +922,25 @@
           "availableLocations"
         ],
         "x-etsi-ref": "6.4.5"
+      },
+      "InlineNotification": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/AddressChangeNotification"
+          },
+          {
+            "$ref": "#/components/schemas/ApplicationContextDeleteNotification"
+          },
+          {
+            "$ref": "#/components/schemas/ApplicationContextUpdateNotification"
+          },
+          {
+            "$ref": "#/components/schemas/ApplicationLocationAvailabilityNotification"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "notificationType"
+        }
       },
       "LocationConstraints": {
         "properties": {
