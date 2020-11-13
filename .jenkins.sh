@@ -13,6 +13,6 @@ for i in $specfiles ; do
     echo "--- Validator returned $res, linter returned $res2."
 done
 
-echo "-- Final validator returns $fres."
-exit $fres
+echo "-- Final validation returns $fres."
 
+exit $fres
