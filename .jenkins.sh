@@ -1,11 +1,11 @@
 #!/bin/bash
 
-specfiles=$(ls | egrep "^[^.]*Api.(json|yaml)")
+specfiles=$(ls | egrep "^[^.]*.(json|yaml)")
 
 fres=0
 for i in $specfiles ; do
     echo "-- Validating and linting OpenAPI file $i..."
-    swagger-cli validate "$i"
+    swagger-cli validate $i
     res=$?
     speccy lint "$i"
     res2=$?
