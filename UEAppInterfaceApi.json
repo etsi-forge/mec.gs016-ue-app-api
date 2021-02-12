@@ -660,22 +660,22 @@
                       "properties": {
                         "bandwidth": {
                           "description": "The required connection bandwidth in kbit/s for the use of the MEC application instance. ",
+                          "format": "uint32",
                           "type": "integer",
-                          "format": "int32",
                           "x-etsi-mec-cardinality": "0..1",
                           "x-etsi-mec-origin-type": "uint32"
                         },
                         "latency": {
                           "description": "The target round trip time in milliseconds supported by the MEC system for the MEC application instance.",
+                          "format": "uint32",
                           "type": "integer",
-                          "format": "int32",
                           "x-etsi-mec-cardinality": "0..1",
                           "x-etsi-mec-origin-type": "uint32"
                         },
                         "memory": {
                           "description": "The maximum size in Mbytes of the memory resource expected to be used by the MEC application instance in the MEC system.",
+                          "format": "uint32",
                           "type": "integer",
-                          "format": "int32",
                           "x-etsi-mec-cardinality": "0..1",
                           "x-etsi-mec-origin-type": "uint32"
                         },
@@ -691,8 +691,8 @@
                         },
                         "storage": {
                           "description": "The maximum size in Mbytes of the storage resource expected to be used by the MEC application instance in the MEC system.",
+                          "format": "uint32",
                           "type": "integer",
-                          "format": "int32",
                           "x-etsi-mec-cardinality": "0..1",
                           "x-etsi-mec-origin-type": "uint32"
                         }
@@ -1025,7 +1025,7 @@
           },
           "status": {
             "description": "The HTTP status code for this occurrence of the problem",
-            "format": "int32",
+            "format": "uint32",
             "type": "integer",
             "x-etsi-mec-cardinality": "0..1",
             "x-etsi-mec-origin-type": "Uint32"
