@@ -34,19 +34,19 @@ paths:
       - $ref: '#/components/parameters/Query.vendorId'
       - $ref: '#/components/parameters/Query.serviceCont'
       responses:
-        200:
+        "200":
           description: "The response body contains an array of the user applications available to the querying device application."
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApplicationList"
-        400:
+        "400":
           $ref: "#/components/responses/400"
-        401:
+        "401":
           $ref: "#/components/responses/401"
-        403:
+        "403":
           $ref: '#/components/responses/403'
-        404:
+        "404":
           $ref: '#/components/responses/404'
   /app_contexts:
     post:
@@ -64,19 +64,19 @@ paths:
               $ref: '#/components/schemas/AppContext'
       parameters: []
       responses:
-        201:
+        "201":
           description: "The response body contains the Application Context as it was created by the MEC system, which includes the reference URI(s) of the associated user application instance(s). The URI of the resource created within the MEC system associated with the request, with its specific application context ID, shall be included in the 'Location' HTTP header of the response."
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/AppContext"
-        400:
+        "400":
           $ref: '#/components/responses/400'
-        401:
+        "401":
           $ref: '#/components/responses/401'
-        403:
+        "403":
           $ref: '#/components/responses/403'
-        404:
+        "404":
           $ref: '#/components/responses/404'
       callbacks:
         notification:
@@ -96,7 +96,7 @@ paths:
                       notificationType: ApplicationContextDeleteNotification
                       contextId: 'contextId123'
               responses:
-                204:
+                "204":
                   $ref: '#/components/responses/204'
   /app_contexts/{contextId}:
     put:
@@ -115,15 +115,15 @@ paths:
       parameters:
       - $ref: '#/components/parameters/Path.contextId'
       responses:
-        204:
+        "204":
           $ref: '#/components/responses/204'
-        400:
+        "400":
           $ref: '#/components/responses/400'
-        401:
+        "401":
           $ref: '#/components/responses/401'
-        403:
+        "403":
           $ref: '#/components/responses/403'
-        404:
+        "404":
           $ref: '#/components/responses/404'
     delete:
       tags:
@@ -134,15 +134,15 @@ paths:
       parameters:
       - $ref: '#/components/parameters/Path.contextId'
       responses:
-        204:
+        "204":
           $ref: '#/components/responses/204'
-        400:
+        "400":
           $ref: '#/components/responses/400'
-        401:
+        "401":
           $ref: '#/components/responses/401'
-        403:
+        "403":
           $ref: '#/components/responses/403'
-        404:
+        "404":
           $ref: '#/components/responses/404'
   /obtain_app_loc_availability:
     post:
@@ -160,43 +160,43 @@ paths:
               $ref: '#/components/schemas/ApplicationLocationAvailability'
       parameters: []
       responses:
-        200:
+        "200":
           description: "The response body contains the locations available for instantiation of the requested user application in the MEC system."
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApplicationLocationAvailability"
-        400:
+        "400":
           $ref: '#/components/responses/400'
-        401:
+        "401":
           $ref: '#/components/responses/401'
-        403:
+        "403":
           $ref: '#/components/responses/403'
-        404:
+        "404":
           $ref: '#/components/responses/404'
 components:
   responses:
-    204:
+    '204':
       description: "Upon success, a response 204 No Content without any response body is returned."
-    400:
+    '400':
       description: 'Bad Request : used to indicate that incorrect parameters were passed to the request.'
       content:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/ProblemDetails'
-    401:
+    '401':
       description: 'Unauthorized :  used when the client did not submit credentials.'
       content:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/ProblemDetails'
-    403:
+    '403':
       description: 'Forbidden :  operation is not allowed given the current status of the resource.'
       content:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/ProblemDetails'
-    404:
+    '404':
       description: 'Not Found :  used when a client provided a URI that cannot be mapped to a valid resource URI.'
       content:
         application/problem+json:
